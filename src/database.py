@@ -1,10 +1,12 @@
 import sqlite3
 
+DATABASE = 'dados.db'
+
 def get_db_connection():
-    conn = sqlite3.connect('dados.db', timeout=10)
-    conn.execute('PRAGMA journal_mode=WAL') # Essencial para concorrência [cite: 131]
-    conn.execute('PRAGMA busy_timeout=5000')
-    conn.row_factory = sqlite3.Row
+    conn = sqlite3.connect(DATABASE, timeout=10) # [cite: 130]
+    conn.execute('PRAGMA journal_mode=WAL')      # [cite: 131]
+    conn.execute('PRAGMA busy_timeout=5000')     # [cite: 132]
+    conn.row_factory = sqlite3.Row               # [cite: 133]
     return conn
 
 def init_db():
@@ -13,13 +15,13 @@ def init_db():
         conn.executescript(f.read())
     conn.close()
 
-def inserir_leitura(temp, umid, pressao=None):
+def inserir_leitura(temperatura, umidade, pressao=None):
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("INSERT INTO leituras (temperatura, umidade, pressao) VALUES (?, ?, ?)",
-                (temp, umid, pressao))
+    cur.execute('INSERT INTO leituras (temperatura, umidade, pressao) VALUES (?, ?, ?)',
+                (temperatura, umidade, pressao))
     conn.commit()
-    novo_id = cur.lastrowid
+    novo_id = cur.lastrow_id
     conn.close()
     return novo_id
 
@@ -37,11 +39,8 @@ def buscar_leitura(id):
 
 def atualizar_leitura(id, dados):
     conn = get_db_connection()
-    conn.execute('''
-        UPDATE leituras 
-        SET temperatura = ?, umidade = ?, pressao = ? 
-        WHERE id = ?
-    ''', (dados['temperatura'], dados['umidade'], dados.get('pressao'), id))
+    conn.execute('UPDATE leituras SET temperatura = ?, umidade = ?, pressao = ? WHERE id = ?',
+                 (dados['temperatura'], dados['umidade'], dados.get('pressao'), id))
     conn.commit()
     conn.close()
 

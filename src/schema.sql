@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS leituras (
     umidade REAL NOT NULL,
     pressao REAL,
     localizacao TEXT DEFAULT 'Lab',
-    timestamp DATETIME DEFAULT (datetime('now', 'localtime'))
+    timestamp DATETIME DEFAULT (datetime('now', 'localtime')) -- [cite: 117]
 );
