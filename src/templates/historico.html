@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Histórico de Leituras</h2>
+    <a href="/leituras?formato=json" class="btn btn-outline-secondary btn-sm" target="_blank">Ver JSON</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Data/Hora</th>
+                    <th>Temp (°C)</th>
+                    <th>Umidade (%)</th>
+                    <th>Pressão</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leitura in leituras %}
+                <tr>
+                    <td>{{ leitura.id }}</td>
+                    <td>{{ leitura.timestamp }}</td>
+                    <td>{{ leitura.temperatura }}</td>
+                    <td>{{ leitura.umidade }}</td>
+                    <td>{{ leitura.pressao or '-' }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="/leituras/{{ leitura.id }}/editar" class="btn btn-sm btn-warning">Editar</a>
+                            <form action="/leituras/{{ leitura.id }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Excluir esta leitura?')">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
