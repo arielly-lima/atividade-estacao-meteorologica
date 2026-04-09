@@ -1,27 +1,176 @@
+/* Importação de fonte moderna */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-purple: #8257e5;
+    --secondary-purple: #6c5ce7;
+    --bg-light: #fdfdfd;
+    --card-bg: #ffffff;
+    --text-main: #2e2e33;
+    --text-support: #70707c;
+    --border-soft: rgba(0, 0, 0, 0.08);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+    /* Degradê suave no fundo para profundidade */
+    background-image: radial-gradient(circle at 50% 0%, #f3f0ff 0%, #fdfdfd 100%);
+    min-height: 100vh;
 }
 
-.card {
-    border-radius: 12px;
-    transition: transform 0.2s;
+/* Navegação Estilo Floating Menu Light */
+nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-soft);
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.card:hover {
+nav a {
+    color: var(--text-support);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav a:hover {
+    color: var(--primary-purple);
+}
+
+/* Container Principal */
+main {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid var(--border-soft);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-weight: 700;
+    color: var(--primary-purple);
+    margin-top: 0;
+    text-align: center;
+}
+
+/* Grid de Estatísticas (Status Cards) */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stats p {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid var(--border-soft);
+    text-align: center;
+    margin: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.stats p:hover {
     transform: translateY(-5px);
+    border-color: var(--primary-purple);
+    box-shadow: 0 8px 24px rgba(130, 87, 229, 0.1);
 }
 
-.dashboard-val {
+.stats strong {
+    display: block;
     font-size: 2.5rem;
-    font-weight: bold;
-    color: #0d6efd;
+    color: var(--primary-purple);
+    margin-top: 10px;
+    font-weight: 700;
 }
 
-.status-indicator {
-    height: 10px;
-    width: 10px;
-    background-color: #28a745;
-    border-radius: 50%;
+/* Tabela Moderna */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 30px;
+}
+
+th {
+    color: var(--text-support);
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+td {
+    background: #f8f9fa;
+    padding: 15px;
+    color: var(--text-main);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+td:first-child { 
+    border-radius: 12px 0 0 12px; 
+    border-left: 1px solid var(--border-soft);
+}
+
+td:last-child { 
+    border-radius: 0 12px 12px 0; 
+    border-right: 1px solid var(--border-soft);
+}
+
+tr:hover td {
+    background: #f1f0ff;
+    border-color: rgba(130, 87, 229, 0.2);
+}
+
+/* Botões de Ação */
+.btn-edit, .btn-del {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    transition: 0.3s;
     display: inline-block;
-    margin-right: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-edit {
+    color: var(--primary-purple);
+    background: #f1f0ff;
+}
+
+.btn-edit:hover {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-del {
+    color: #f75a68;
+    background: #fff5f5;
+}
+
+.btn-del:hover {
+    background: #f75a68;
+    color: white;
 }

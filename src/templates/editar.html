@@ -1,56 +1,25 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-warning text-dark">
-                <h4 class="mb-0">Editar Leitura #{{ leitura.id }}</h4>
-            </div>
-            <div class="card-body">
-                <form id="editForm">
-                    <div class="mb-3">
-                        <label class="form-label">Temperatura (°C)</label>
-                        <input type="number" step="0.1" class="form-control" id="temp" value="{{ leitura.temperatura }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Umidade (%)</label>
-                        <input type="number" step="0.1" class="form-control" id="umid" value="{{ leitura.umidade }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Pressão (hPa)</label>
-                        <input type="number" step="0.1" class="form-control" id="pressao" value="{{ leitura.pressao }}">
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <a href="/leituras" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<h2>Editar Leitura #{{ leitura.id }}</h2>
+<form action="/leituras/{{ leitura.id }}" method="POST">
+    <div style="margin-bottom: 10px;">
+        <label>Temperatura (°C):</label><br>
+        <input type="number" step="0.1" name="temperatura" value="{{ leitura.temperatura }}" required>
     </div>
-</div>
+    
+    <div style="margin-bottom: 10px;">
+        <label>Umidade (%):</label><br>
+        <input type="number" step="0.1" name="umidade" value="{{ leitura.umidade }}" required>
+    </div>
 
-<script>
-    // Submissão via PUT conforme requisito [cite: 196]
-    document.getElementById('editForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const dados = {
-            temperatura: document.getElementById('temp').value,
-            umidade: document.getElementById('umid').value,
-            pressao: document.getElementById('pressao').value
-        };
+    <div style="margin-bottom: 10px;">
+        <label>Pressão (opcional):</label><br>
+        <input type="number" step="0.01" name="pressao" value="{{ leitura.pressao }}">
+    </div>
 
-        const resp = await fetch('/leituras/{{ leitura.id }}', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dados)
-        });
-
-        if (resp.ok) {
-            alert('Atualizado com sucesso!');
-            window.location.href = '/leituras';
-        }
-    };
-</script>
+    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">
+        Salvar Alterações
+    </button>
+    <a href="/leituras" style="margin-left: 10px;">Cancelar</a>
+</form>
 {% endblock %}

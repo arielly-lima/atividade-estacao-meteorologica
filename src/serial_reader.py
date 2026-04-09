@@ -1,25 +1,38 @@
-import serial, json, requests, time
+import json
+import requests
+import time
+import random
 
-PORTA = 'COM3' # Windows [cite: 161, 164]
-BAUD = 9600
+# Configurações
 URL = 'http://localhost:5000/leituras'
 
-def ler_serial():
-    print(f"Iniciando leitura na porta {PORTA}...")
-    try:
-        with serial.Serial(PORTA, BAUD, timeout=2) as ser: # [cite: 167]
-            while True:
-                linha = ser.readline().decode('utf-8').strip() # [cite: 168]
-                if linha:
-                    try:
-                        dados = json.loads(linha) # [cite: 173]
-                        response = requests.post(URL, json=dados) # [cite: 174]
-                        print(f"Status: {response.status_code} | Enviado: {dados}")
-                    except Exception as e:
-                        print(f"Erro ao processar linha: {e}")
-                time.sleep(0.1)
-    except serial.SerialException:
-        print("Erro: Arduino desconectado ou porta ocupada.") # [cite: 207]
+def simular_estacao():
+    print("=== Modo de Simulação Ativado ===")
+    print(f"Enviando dados para: {URL}")
+    print("Pressione Ctrl+C para parar.\n")
+    
+    while True:
+        try:
+            # Gerando dados aleatórios realistas 
+            dados_simulados = {
+                "temperatura": round(random.uniform(22.0, 31.0), 2),
+                "umidade": round(random.uniform(40.0, 75.0), 2),
+                "pressao": round(random.uniform(1010.0, 1015.0), 2)
+            }
+            
+            # Fazendo o POST para a API Flask [cite: 159, 174]
+            response = requests.post(URL, json=dados_simulados)
+            
+            if response.status_code == 201:
+                print(f"Enviado com sucesso: {dados_simulados}")
+            else:
+                print(f"Erro no servidor: {response.status_code}")
+                
+        except requests.exceptions.ConnectionError:
+            print("Erro: O servidor Flask não está rodando. Inicie o app.py primeiro!")
+            
+        # Espera 5 segundos entre as leituras (conforme requisito) [cite: 78, 96]
+        time.sleep(5)
 
 if __name__ == '__main__':
-    ler_serial()
+    simular_estacao()

@@ -1,25 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Dashboard em Tempo Real</h2>
+<h2>Dashboard da Estação Meteorológica</h2>
+
 <div class="stats">
-    <p>Temperatura Atual: <span id="temp-val">--</span>°C</p>
-    <p>Umidade Atual: <span id="umid-val">--</span>%</p>
+    <p>Temperatura: <strong id="temp-val">--</strong>°C</p>
+    <p>Umidade: <strong id="umid-val">--</strong>%</p>
 </div>
 
-<div style="width: 80%; margin: auto;">
-    <canvas id="graficoTemporal"></canvas> </div>
+<div style="width: 100%; max-width: 800px; margin: 20px auto;">
+    <canvas id="graficoTemporal"></canvas>
+</div>
 
 <h3>Últimas 10 Leituras</h3>
 <table>
-    <tr><th>Data</th><th>Temp (°C)</th><th>Umidade (%)</th></tr>
-    {% for l in leituras %}
-    <tr>
-        <td>{{ l.timestamp }}</td>
-        <td>{{ l.temperatura }}</td>
-        <td>{{ l.umidade }}</td>
-    </tr>
-    {% endfor %}
+    <thead>
+        <tr>
+            <th>Data/Hora</th>
+            <th>Temp (°C)</th>
+            <th>Umidade (%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for l in leituras %}
+        <tr>
+            <td>{{ l.timestamp }}</td>
+            <td>{{ l.temperatura }}</td>
+            <td>{{ l.umidade }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
